@@ -10,3 +10,6 @@ npm-debug.log
 #Optional npm cache directory
 .npm
 package-lock.json
+
+#Extra files
+uploads
