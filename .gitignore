@@ -1,0 +1,12 @@
+.DS_Store
+# dependencies
+node_modules
+
+#log
+logs
+*.log
+npm-debug.log
+
+#Optional npm cache directory
+.npm
+package-lock.json
