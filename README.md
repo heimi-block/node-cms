@@ -8,6 +8,8 @@
 -node v7.6+
 -mongoose
 -express
+-mongodb 3.4
+-redis
 
 ## Build Setup
 
@@ -15,6 +17,6 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:7070
-npm run dev
+# serve start at localhost:7000
+npm run start
 ```
