@@ -29,8 +29,8 @@ categoryCtrl.list.POST = ({ body: category, body: { name } }, res) => {
         const newCategory = new Category()
         newCategory.name = name
 
-        let save = await storage.save4MStorage(newCategory)
-        handleSuccess({ res, save, message: '分类发布成功' })
+        let result = await storage.save4MStorage(newCategory)
+        handleSuccess({ res, result, message: '分类发布成功' })
 
     })()
 }
@@ -46,8 +46,8 @@ categoryCtrl.item.DELETE = ({ params: { category_id } }, res) => {
             return false
         }
 
-        let del = await storage.removeCondition4MStorage(Category, { '_id': mongoose.Types.ObjectId(category_id) })
-        handleSuccess({ res, del, message: '分类删除成功' })
+        let result = await storage.removeCondition4MStorage(Category, { '_id': mongoose.Types.ObjectId(category_id) })
+        handleSuccess({ res, result, message: '分类删除成功' })
 
     })()
 }
@@ -70,8 +70,8 @@ categoryCtrl.item.PUT = ({ params: { category_id }, body: category, body: { name
         // 修改
         category.name = name
 
-        let save = await storage.update4MStorage(category)
-        handleSuccess({ res, save, message: '分类修改成功' })
+        let result = await storage.update4MStorage(category)
+        handleSuccess({ res, result, message: '分类修改成功' })
     })()
 
 }

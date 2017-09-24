@@ -1,6 +1,6 @@
 /*
 *
-* 分类控制器
+* 文件控制器
 *
 */
 const path = require('path')
@@ -45,9 +45,9 @@ attachmentCtrl.list.POST = (req, res) => {
 // 删除文件
 attachmentCtrl.item.DELETE = ({ params: { attachment_id } }, res) => {
     (async () => {
-        let it = await storage.find4MStorage('one', { '_id': mongoose.Types.ObjectId(attachment_id) }, Attachment, false, false, false)
+        let result = await storage.find4MStorage('one', { '_id': mongoose.Types.ObjectId(attachment_id) }, Attachment, false, false, false)
 
-        if (_.isEmpty(it)) {
+        if (_.isEmpty(result)) {
             handleError({ res, message: '该文件不存在' })
             return false
         }
@@ -55,14 +55,14 @@ attachmentCtrl.item.DELETE = ({ params: { attachment_id } }, res) => {
         try {
             // fixedbug: 更新后图片地址与id不一致，无法删除
             // pify(fs.unlink)(path.join(__dirname, '..', 'uploads', id) + it.extname);
-            let fixbug = it.url.split('/')[2].split('.')[0]
-            pify(fs.unlink)(path.join(__dirname, '..', 'uploads', fixbug) + it.extname);
+            let fixbug = result.url.split('/')[2].split('.')[0]
+            pify(fs.unlink)(path.join(__dirname, '..', 'uploads', fixbug) + result.extname);
         } catch (err) {
             console.error(err);
         }
 
-        it.remove()
-        handleSuccess({ res, it, message: '该文件删除成功' })
+        result.remove()
+        handleSuccess({ res, result, message: '该文件删除成功' })
 
     })()
 }
@@ -76,23 +76,23 @@ attachmentCtrl.item.PUT = ({ params: { attachment_id }, body: attachment, body: 
     };
 
     (async () => {
-        let it = await storage.find4MStorage('one', { '_id': mongoose.Types.ObjectId(attachment_id) }, Attachment, false, false, false)
+        let result = await storage.find4MStorage('one', { '_id': mongoose.Types.ObjectId(attachment_id) }, Attachment, false, false, false)
 
-        if (_.isEmpty(it)) {
+        if (_.isEmpty(result)) {
             handleError({ res, message: '未找到此文件' })
             return false
         }
         // 更新前，找到这个文件，先把这个文件删除掉
         try {
-            pify(fs.unlink)(path.join(__dirname, '..', 'uploads', attachment_id) + it.extname);
+            pify(fs.unlink)(path.join(__dirname, '..', 'uploads', attachment_id) + result.extname);
         } catch (err) {
             handleError({ res, err, message: '此文件删除失败' })
             return false
         }
         // 删除后，再更新此记录
-        it.url = url
-        it.extname = extname
-        it.save()
+        result.url = url
+        result.extname = extname
+        result.save()
         // 更新完后，删除新上传的那条记录id
         let last = await storage.find4MStorage('one', { '_id': mongoose.Types.ObjectId(lastId) }, Attachment, false, false, false)
         if (_.isEmpty(last)) {

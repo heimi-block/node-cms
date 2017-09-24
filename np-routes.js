@@ -22,18 +22,18 @@ const routes = app => {
         res.header('X-Powered-By', 'Nodepress 1.0.0');
 
         // 排除auth的post请求
-		const isPostAuth = Object.is(req.url, '/auth') && Object.is(req.method, 'POST');
-		if (isPostAuth) {
-			next()
-			return false
+        const isPostAuth = Object.is(req.url, '/auth') && Object.is(req.method, 'POST');
+        if (isPostAuth) {
+            next()
+            return false
         }
 
         // 拦截所有非get请求
-		if (!authIsVerified(req) && !Object.is(req.method, 'GET')) {
-			res.status(401).jsonp({ code: 0, message: '来者何人！' })
-			return false
+        if (!authIsVerified(req) && !Object.is(req.method, 'GET')) {
+            res.status(401).jsonp({ code: 0, message: '来者何人！' })
+            return false
         }
-        
+
         next()
     })
 
@@ -49,11 +49,36 @@ const routes = app => {
     app.all('/category', controller.category.list)
     app.all('/category/:category_id', controller.category.item)
 
+    // Banner
+    app.all('/banner', controller.banner.list)
+    app.all('/banner/:banner_id', controller.banner.item)
+
+    // Group
+    app.all('/group', controller.group.list)
+    app.all('/group/:group', controller.group.item)
+
+    // Form
+    app.all('/form', controller.form.list)
+    app.all('/form/:form_id', controller.form.item)
+
+    // Post
+    app.all('/post', controller.post.list)
+    app.all('/post/:post_id', controller.post.item)
+
     // Attachment [设定上传的路径. ..]
     const upload = multer({ dest: path.join(__dirname, '.', 'uploads') })
     app.all('/attachment', upload.single('upfile'), controller.attachment.list)
     app.all('/attachment/:attachment_id', controller.attachment.item)
-    
+
+    // Meta
+    app.all('/meta', controller.meta)
+
+    // Info
+    app.all('/info', controller.info)
+
+    // GoogleAnalytics
+    app.all('/google', controller.google)
+
     // 404
     app.all('*', (req, res) => {
         res.status(404).jsonp({

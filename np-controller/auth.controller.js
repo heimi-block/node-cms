@@ -23,20 +23,20 @@ authCtrl.POST = (req, res) => {
     const email = formBody.email
     const password = formBody.password;
     (async () => {
-        let user = await storage.find4MStorage('one', { 'email': email }, User, false, false, false)
+        let result = await storage.find4MStorage('one', { 'email': email }, User, false, false, false)
 
-        if (_.isEmpty(user)) {
-            handleError({ res, user, message: '用户不存在，来者何人!' })
+        if (_.isEmpty(result)) {
+            handleError({ res, result, message: '用户不存在，来者何人!' })
             return
         }
 
-        let checkPwd = await secure.comparePassword(password, user.password)
+        let checkPwd = await secure.comparePassword(password, result.password)
         if (!checkPwd) {
-            handleError({ res, user, message: '密码错误，登录失败' })
+            handleError({ res, result, message: '密码错误，登录失败' })
             return
         }
 
-        const info = user
+        const info = result
         info.password = 'close your eyes!'
 
         const token = jwt.sign({
