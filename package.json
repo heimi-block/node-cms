@@ -2,8 +2,7 @@
   "name": "4MCLOUDServer",
   "scripts": {
     "start": "NODE_ENV=production node --harmony app.js",
-    "dev": "nodemon --exec \"NODE_ENV=development node --harmony app.js\"",
-    "updatedb": "node ./node_modules/geoip-lite/scripts/updatedb.js"
+    "dev": "nodemon --exec \"NODE_ENV=development node --harmony app.js\""
   },
   "version": "0.0.1",
   "dependencies": {

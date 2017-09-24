@@ -15,11 +15,28 @@ const routes = app => {
         if (allowedOrigins.includes(origin) || origin.includes('localhost')) {
             res.setHeader('Access-Control-Allow-Origin', origin)
         }
-        res.header('Access-Control-Allow-Headers', 'Authorization, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, X-MC-TOKEN');
-        res.header('Access-Control-Allow-Methods', 'PUT,PATCH,POST,GET,DELETE,OPTIONS');
-        res.header('Access-Control-Max-Agse', '1728000');
-        res.header('Content-Type', 'application/json;charset=utf-8');
-        res.header('X-Powered-By', 'Nodepress 1.0.0');
+        res.header('Access-Control-Allow-Headers', 'Authorization, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With, X-MC-TOKEN')
+        res.header('Access-Control-Allow-Methods', 'PUT,PATCH,POST,GET,DELETE,OPTIONS')
+        res.header('Access-Control-Max-Agse', '1728000')
+        res.header('Content-Type', 'application/json;charset=utf-8')
+        res.header('X-Powered-By', 'Nodepress 1.0.0')
+
+        // OPTIONS
+        if (req.method == 'OPTIONS') {
+            res.sendStatus(200)
+            return false
+        }
+
+        // 如果是生产环境，需要验证用户来源渠道，防止非正常请求
+        if (Object.is(process.env.NODE_ENV, 'production')) {
+            const { origin, referer } = req.headers;
+            const originVerified = (!origin || origin.includes('cms.4-m.cn')) &&
+                (!referer || referer.includes('cms.4-m.cn'))
+            if (!originVerified) {
+                res.status(403).jsonp({ code: 0, message: '来者何人！' })
+                return false;
+            }
+        }
 
         // 排除auth的post请求
         const isPostAuth = Object.is(req.url, '/auth') && Object.is(req.method, 'POST');

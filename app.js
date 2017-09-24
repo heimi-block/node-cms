@@ -41,7 +41,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // app routes
 routes(app)
-// app.use('/', require('./routes'))
 
 // Start server
 http.createServer(app).listen(app.get('port'), () => {
