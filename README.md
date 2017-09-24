@@ -20,3 +20,6 @@ npm install
 # serve start at localhost:7000
 npm run start
 ```
+
+> THANKS
+- nodepress 项目 by Surmon.
