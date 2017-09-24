@@ -1,5 +1,3 @@
-const mongoose = require('np-mongodb').mongoose
-
 //4MStorage失败的异常
 const errorExceptions =  {
   '400': {'code': 400, 'err': '4MStorageException: Something broke with Mongoose Save!'}

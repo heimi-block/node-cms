@@ -9,7 +9,6 @@ exports.MONGODB = {
 }
 
 exports.APP = {
-  // ROOT_PATH: __dirname,
 	PORT: 7000
 }
 
@@ -23,8 +22,8 @@ exports.INFO = {
 	name: '4MEfficient RestfulAPI Framework',
 	version: '1.0.0',
 	author: '4mdevstudio',
-	site: 'https://cms.4-m.cn',
-	powered: ['Vue2', 'Nuxt.js', 'React', 'Angular4', 'Bootstrap4', 'jQuery', 'Video.js', 'Node.js', 'MongoDB', 'Express', 'Nginx']
+	site: 'http://cms.4-m.cn',
+	powered: ['Node.js', 'MongoDB', 'Express', 'Nginx']
 }
 
 exports.GOOGLEANALTTICS = {
@@ -39,3 +38,4 @@ exports.GOOGLEANALTTICS = {
 	auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
 	client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/getdataformapi%40poetic-result-176709.iam.gserviceaccount.com'
 }
+

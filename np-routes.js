@@ -82,6 +82,10 @@ const routes = app => {
     app.all('/post', controller.post.list)
     app.all('/post/:post_id', controller.post.item)
 
+    //User
+    app.all('/user', controller.user.list)
+    app.all('/user/:user_id', controller.user.item)
+
     // Attachment [设定上传的路径. ..]
     const upload = multer({ dest: path.join(__dirname, '.', 'uploads') })
     app.all('/attachment', upload.single('upfile'), controller.attachment.list)

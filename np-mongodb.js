@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const config = require('./np-config')
+const config = require('np-config')
 mongoose.Promise = global.Promise
 
 // 注册mongoose，model创建时调用
