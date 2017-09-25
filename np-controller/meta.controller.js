@@ -60,9 +60,9 @@ metaCtrl.PUT = ({ body: meta, body: { description, keywords, themecss, headerscr
           const newMeta = new Meta()
           newMeta.description = description
           newMeta.keywords = keywords
-          newMeta.themeCss = themeCss
-          newMeta.headerScript = headerScript
-          newMeta.footerScript = footerScript
+          newMeta.themeCss = themecss
+          newMeta.headerScript = headerscript
+          newMeta.footerScript = footerscript
     
           let result = await storage.save4MStorage(newMeta)
           handleSuccess({ res, result, message: 'META配置项初始化成功' })
@@ -72,9 +72,9 @@ metaCtrl.PUT = ({ body: meta, body: { description, keywords, themecss, headerscr
         //存在的话，就执行信息的更新操作
         meta.description = description
         meta.keywords = keywords
-        meta.themeCss = themeCss
-        meta.headerScript = headerScript
-        meta.footerScript = footerScript
+        meta.themeCss = themecss
+        meta.headerScript = headerscript
+        meta.footerScript = footerscript
         let result = await storage.save4MStorage(meta)
         handleSuccess({ res, result, message: 'META配置项修改成功' })
     

@@ -22,6 +22,7 @@ infoCtrl.GET = (req, res) => {
             // 没有存在，创建即可
             const newInfo = new Info()
             newInfo.contactTel = ''
+            newInfo.googleMap = ''
             newInfo.faxNumber = ''
             newInfo.contactEmail = ''
             newInfo.contactAddress = ''
@@ -54,7 +55,7 @@ infoCtrl.GET = (req, res) => {
 }
 
 // 修改Info
-infoCtrl.PUT = ({ body: info, body: { contactTel, faxNumber, contactEmail, contactAddress, workTime, copyright, aboutUs } }, res) => {
+infoCtrl.PUT = ({ body: info, body: { googleMap, contactTel, faxNumber, contactEmail, contactAddress, workTime, copyright, aboutUs } }, res) => {
 
     (async () => {
         //更新信息之前，先去查找数据库是否存在此记录，如果不存在则初始化
@@ -63,6 +64,7 @@ infoCtrl.PUT = ({ body: info, body: { contactTel, faxNumber, contactEmail, conta
         if (info === null) {
             //没有存在，创建即可
             const newInfo = new Info()
+            newInfo.googleMap = googleMap
             newInfo.contactTel = contactTel
             newInfo.faxNumber = faxNumber
             newInfo.contactEmail = contactEmail
@@ -77,6 +79,7 @@ infoCtrl.PUT = ({ body: info, body: { contactTel, faxNumber, contactEmail, conta
         }
 
         //存在的话，就执行信息的更新操作
+        info.googleMap = googleMap
         info.contactTel = contactTel
         info.faxNumber = faxNumber
         info.contactEmail = contactEmail
