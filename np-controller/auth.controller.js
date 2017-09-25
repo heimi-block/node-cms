@@ -8,6 +8,7 @@ const { handleRequest, handleError, handleSuccess } = require('np-utils/np-handl
 const User = require('np-model/user.model')
 const storage = require('np-utils/np-storage')
 const secure = require('np-utils/np-secure')
+const authIsVerified = require('np-utils/np-auth')
 const config = require('np-config')
 const jwt = require('jsonwebtoken')
 const authCtrl = {}
@@ -35,10 +36,7 @@ authCtrl.POST = (req, res) => {
             handleError({ res, result, message: '密码错误，登录失败' })
             return
         }
-
         const info = result
-        info.password = 'close your eyes!'
-
         const token = jwt.sign({
             // data: config.AUTH.data,
             data:{
@@ -47,8 +45,23 @@ authCtrl.POST = (req, res) => {
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7)
         }, config.AUTH.jwtTokenSecret)
 
-        handleSuccess({ res, result: { token, info }, message: '登陆成功' })
+        handleSuccess({ res, result: { token }, message: '登陆成功' })
 
+    })()
+
+}
+
+authCtrl.GET = (req, res) => {
+    if(!authIsVerified(req)){
+        handleError({ res, message: 'Token失效或未登录' })
+        return false
+    };
+
+    (async()=>{
+        let result = await storage.find4MStorage('one', { '_id': authIsVerified(req) }, User, false, false, false)
+        const info = result
+        info.password = 'close your eyes!'
+        handleSuccess({ res, result: info, message: '已登录' })
     })()
 
 }
