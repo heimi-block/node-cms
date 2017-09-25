@@ -68,20 +68,6 @@ userCtrl.item.DELETE = ({ params: { user_id } }, res) => {
 // 修改单个用户
 userCtrl.item.PUT = ({ params: { user_id }, body: user, body: { email, password, group, isShow } }, res) => {
 
-    //中國台灣地區
-    if (!(/^[\.a-zA-Z0-9\u4e00-\u9fa5_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email))) {
-        handleError({ res, message: '邮箱格式错误' })
-        return false
-    }
-    if (!(/^.{6,12}$/.test(password))) {
-        handleError({ res, message: '密码不符合规范，需要 6 - 12 个字符' })
-        return false
-    }
-    if (_.isEmpty(group)) {
-        handleError({ res, message: '不支持所选角色' })
-        return false
-    };
-
     (async () => {
         //验证该用户是否存在
         const user = await storage.find4MStorage('one', { '_id': mongoose.Types.ObjectId(user_id) }, User, false, false, false)
@@ -89,16 +75,12 @@ userCtrl.item.PUT = ({ params: { user_id }, body: user, body: { email, password,
             handleError({ res, message: '该用户不存在' })
             return false
         }
-        // 验证Name合法性
-        let isCorrectly = await storage.find4MStorage('one', { email: email }, User, false, false, false)
-        if (!_.isEmpty(isCorrectly)) {
-            handleError({ res, message: '该邮箱地址已被注册' })
-            return false
-        }
 
         // 修改
         user.email = email
-        user.password = await secure.cryptPassword(password)
+        if(password != null || password != '' || password != undefined){
+            user.password = await secure.cryptPassword(password)
+        }
         user.group = group
         user.isShow = isShow
 

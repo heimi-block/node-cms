@@ -59,6 +59,10 @@ authCtrl.GET = (req, res) => {
 
     (async()=>{
         let result = await storage.find4MStorage('one', { '_id': authIsVerified(req) }, User, false, false, false)
+        if(_.isEmpty(result)){
+            handleError({ res, message: '用户不存在，错误' })
+            return false          
+        }
         const info = result
         info.password = 'close your eyes!'
         handleSuccess({ res, result: info, message: '已登录' })

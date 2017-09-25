@@ -72,7 +72,7 @@ const routes = app => {
 
     // Group
     app.all('/api/group', controller.group.list)
-    app.all('/api/group/:group', controller.group.item)
+    app.all('/api/group/:group_id', controller.group.item)
 
     // Form
     app.all('/api/form', controller.form.list)

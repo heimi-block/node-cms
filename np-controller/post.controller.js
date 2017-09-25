@@ -57,7 +57,7 @@ postCtrl.item.DELETE = ({ params: { post_id } }, res) => {
 }
 
 // 修改单个文章
-postCtrl.item.PUT = ({ params: { post_id }, body: post, body: { name } }, res) => {
+postCtrl.item.PUT = ({ params: { post_id }, body: post, body: { category, title, coverUrl, content, isShow} }, res) => {
 
       if (category == undefined || title == undefined || coverUrl == undefined || content == undefined || isShow == undefined) {
           handleError({ res, message: '文章参数不合法' })
@@ -92,12 +92,19 @@ postCtrl.list.GET = (req, res) => {
     // let pageSize = Number(formBody.pageSize)
     let pageSize = 10
     // let sort = formBody.sort
-    let skip = (page-1)*pageSize;
+    let skip = (page-1)*pageSize
 
+    // 是否开启分页
+    let isPaging = formBody.isPaging || true;
     (async() => {
         //开启分页
         // 需要联表查询到分类信息
-        const posts = await storage.findPopulate4MStorage('all',{},Post,'category',skip,pageSize,false)
+        let posts = []
+        if(isPaging === 'false'){
+            posts = await storage.findPopulate4MStorage('all',{},Post,'category',false,false,false)
+        }else{
+            posts = await storage.findPopulate4MStorage('all',{},Post,'category',skip,pageSize,false)
+        }
         const result = posts.map((e, i) => {
             const jsonObject = Object.assign({}, e._doc)
             jsonObject.createdAt = moment(e.createdAt).format('YYYY-MM-DD HH:mm:ss')

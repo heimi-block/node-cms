@@ -1,6 +1,6 @@
 const argv = require('yargs').argv // Yargs帮助您构建交互式命令行工具，通过解析参数和生成优雅的用户界面
 exports.MONGODB = {
-  uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/devcloud`,
+  uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/cms`,
   username: argv.db_username || 'DB_username',
   password: argv.db_password || 'DB_password',
   options:{ 

@@ -53,7 +53,7 @@ groupCtrl.item.DELETE = ({ params: { group_id } }, res) => {
 }
 
 // 修改单个权限组
-groupCtrl.item.PUT = ({ params: { group_id }, body: group, body: { name } }, res) => {
+groupCtrl.item.PUT = ({ params: { group_id }, body: group, body: { name, privileges } }, res) => {
 
   if (name == undefined || privileges == undefined) {
       handleError({ res, message: '权限组参数不合法' })
@@ -85,11 +85,17 @@ groupCtrl.list.GET = (req, res) => {
     // let pageSize = Number(formBody.pageSize)
     let pageSize = 10
     // let sort = formBody.sort
-    let skip = (page-1)*pageSize;
-
+    let skip = (page-1)*pageSize
+    // 是否开启分页
+    let isPaging = formBody.isPaging || true;
     (async() => {
         //开启分页
-        const group = await storage.find4MStorage('all',{},Group,skip,pageSize,false)
+        let group = []
+        if(isPaging === 'false'){
+            group = await storage.find4MStorage('all',{},Group,false,false,false)
+        }else{
+            group = await storage.find4MStorage('all',{},Group,skip,pageSize,false)
+        }
         const result = group.map((e, i) => {
             const jsonObject = Object.assign({}, e._doc)
             jsonObject.createdAt = moment(e.createdAt).format('YYYY-MM-DD HH:mm:ss')

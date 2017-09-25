@@ -84,11 +84,17 @@ categoryCtrl.list.GET = (req, res) => {
     // let pageSize = Number(formBody.pageSize)
     let pageSize = 10
     // let sort = formBody.sort
-    let skip = (page-1)*pageSize;
-
+    let skip = (page-1)*pageSize
+    // 是否开启分页
+    let isPaging = formBody.isPaging || true;
     (async() => {
         //开启分页
-        const category = await storage.find4MStorage('all',{},Category,skip,pageSize,false)
+        let category = []
+        if(isPaging === 'false'){
+            category = await storage.find4MStorage('all',{},Category,false,false,false)
+        }else{
+            category = await storage.find4MStorage('all',{},Category,skip,pageSize,false)
+        }
         const result = category.map((e, i) => {
             const jsonObject = Object.assign({}, e._doc)
             jsonObject.createdAt = moment(e.createdAt).format('YYYY-MM-DD HH:mm:ss')
