@@ -28,6 +28,7 @@ const routes = app => {
         }
 
         // 如果是生产环境，需要验证用户来源渠道，防止非正常请求
+        /*
         if (Object.is(process.env.NODE_ENV, 'production')) {
             const { origin, referer } = req.headers;
             const originVerified = (!origin || origin.includes('cms.4-m.cn')) &&
@@ -37,7 +38,8 @@ const routes = app => {
                 return false;
             }
         }
-
+        */
+        
         // 排除auth的post请求
         const isPostAuth = Object.is(req.url, '/api/auth') && Object.is(req.method, 'POST');
         if (isPostAuth) {
@@ -47,7 +49,7 @@ const routes = app => {
 
         // 拦截所有非get请求
         if (!authIsVerified(req) && !Object.is(req.method, 'GET')) {
-            res.status(401).jsonp({ code: 0, message: '来者何人！' })
+            res.status(200).jsonp({ code: 0, message: '来者何人！' })
             return false
         }
 
