@@ -57,7 +57,7 @@ bannerCtrl.item.DELETE = ({ params: { banner_id } }, res) => {
 }
 
 // 修改单个轮播
-bannerCtrl.item.PUT = ({ params: { banner_id }, body: banner, body: { name } }, res) => {
+bannerCtrl.item.PUT = ({ params: { banner_id }, body: banner, body: { order, imgUrl, title, postHref, isShow } }, res) => {
 
   if (order == undefined || imgUrl == undefined || title == undefined || postHref == undefined || isShow == undefined) {
       handleError({ res, message: '轮播参数不合法' })
@@ -71,12 +71,7 @@ bannerCtrl.item.PUT = ({ params: { banner_id }, body: banner, body: { name } }, 
             handleError({ res, message: '该轮播不存在' })
             return false
         }
-        // 验证Order合法性
-        let isCorrectly = await storage.find4MStorage('one', { order: order }, Banner, false, false, false)
-        if (!_.isEmpty(isCorrectly)) {
-            handleError({ res, message: '轮播序号已经存在，不可重复' })
-            return false
-        }
+        
         // 修改
         banner.order = order
         banner.imgUrl = imgUrl

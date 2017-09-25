@@ -39,7 +39,7 @@ const routes = app => {
         }
 
         // 排除auth的post请求
-        const isPostAuth = Object.is(req.url, '/auth') && Object.is(req.method, 'POST');
+        const isPostAuth = Object.is(req.url, '/api/auth') && Object.is(req.method, 'POST');
         if (isPostAuth) {
             next()
             return false
@@ -55,50 +55,50 @@ const routes = app => {
     })
 
     // Api
-    app.get('/', (req, res) => {
+    app.get('/api', (req, res) => {
         res.jsonp(config.INFO)
     })
 
     // Auth
-    app.all('/auth', controller.auth)
+    app.all('/api/auth', controller.auth)
 
     // Category
-    app.all('/category', controller.category.list)
-    app.all('/category/:category_id', controller.category.item)
+    app.all('/api/category', controller.category.list)
+    app.all('/api/category/:category_id', controller.category.item)
 
     // Banner
-    app.all('/banner', controller.banner.list)
-    app.all('/banner/:banner_id', controller.banner.item)
+    app.all('/api/banner', controller.banner.list)
+    app.all('/api/banner/:banner_id', controller.banner.item)
 
     // Group
-    app.all('/group', controller.group.list)
-    app.all('/group/:group', controller.group.item)
+    app.all('/api/group', controller.group.list)
+    app.all('/api/group/:group', controller.group.item)
 
     // Form
-    app.all('/form', controller.form.list)
-    app.all('/form/:form_id', controller.form.item)
+    app.all('/api/form', controller.form.list)
+    app.all('/api/form/:form_id', controller.form.item)
 
     // Post
-    app.all('/post', controller.post.list)
-    app.all('/post/:post_id', controller.post.item)
+    app.all('/api/post', controller.post.list)
+    app.all('/api/post/:post_id', controller.post.item)
 
     //User
-    app.all('/user', controller.user.list)
-    app.all('/user/:user_id', controller.user.item)
+    app.all('/api/user', controller.user.list)
+    app.all('/api/user/:user_id', controller.user.item)
 
     // Attachment [设定上传的路径. ..]
     const upload = multer({ dest: path.join(__dirname, '.', 'uploads') })
-    app.all('/attachment', upload.single('upfile'), controller.attachment.list)
-    app.all('/attachment/:attachment_id', controller.attachment.item)
+    app.all('/api/attachment', upload.single('upfile'), controller.attachment.list)
+    app.all('/api/attachment/:attachment_id', controller.attachment.item)
 
     // Meta
-    app.all('/meta', controller.meta)
+    app.all('/api/meta', controller.meta)
 
     // Info
-    app.all('/info', controller.info)
+    app.all('/api/info', controller.info)
 
     // GoogleAnalytics
-    app.all('/google', controller.google)
+    app.all('/api/google', controller.google)
 
     // 404
     app.all('*', (req, res) => {
